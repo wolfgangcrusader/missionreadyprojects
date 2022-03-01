@@ -1,0 +1,9 @@
+version: 0.0
+Resources:
+ - TargetService:
+     Type: AWS::ECS::Service
+     Properties:
+       TaskDefinition: ecs-tutorial-task-definition
+       LoadBalancerInfo:
+         ContainerName: ecs-tutorial-container
+         ContainerPort: 8080
