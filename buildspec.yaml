@@ -5,7 +5,7 @@ env:
     AWS_REGION: ap-southeast-2 # checkfor specific region
     AWS_ACCOUNT_ID: 273541830253
     IMAGE_NAME: ecr-mission4image
-    CONTAINER_NAME: ecs-rolling-update-container
+    CONTAINER_NAME: ecs-tutorial-container
     
 phases:
   install:
