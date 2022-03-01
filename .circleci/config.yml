@@ -11,7 +11,7 @@ workflows:
           requires:
             - build_test
       - aws-ecr/build_and_push_image:
-          region: us-east-1
+          region: ap-southeast-2
           account-url: ${AWS_ECR_ACCOUNT_URL}
           repo: ${CIRCLE_PROJECT_REPONAME}
           tag: ${CIRCLE_BUILD_NUM}
@@ -36,7 +36,7 @@ jobs:
             python test_hello_world.py
   docker_hub_build_push_image:
     docker:
-      - image: circleci/python:3.10.2
+      - image: circleci/python:2.7.14
     steps:
       - checkout
       - setup_remote_docker:
