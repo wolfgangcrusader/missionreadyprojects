@@ -1,11 +1,11 @@
 #!/bin/bash
 
 # navigate to app folder
-cd app
+cd /app
 
 # initial startup by running react-script "start", name process "marketing"
 # --watch watches and restarts if files change
-pm2 start ./node_modules/react-scripts/scripts/start.js --name "marketing" --watch
+pm2 start ./node_modules/react-scripts/scripts/start --name "quote-generator-react" --watch
 
 # auto restart server if shut down
 pm2 startup
