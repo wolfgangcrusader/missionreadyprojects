@@ -16,31 +16,32 @@ phases:
       # - npm install -g mocha (test)
   pre_build:
     commands:
-      - echo  Installing   source NPM dependencies...
+      echo  Installing   source NPM dependencies...
       - npm install
+      # - npm install  unit.js
       - echo Setting up docker
-      - docker login -u $dockerhub_username -p $dockerhub_password
-      - REPOSITORY_URI=$ecr_uri
-      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
-      - IMAGE_TAG=${COMMIT_HASH:=latest} 
+      - nohup /usr/local/bin/dockerd --host=unix:///var/run/docker.sock --host=tcp://127.0.0.1:2375 --storage-driver=overlay2 &
+      - timeout 15 sh -c "until docker info; do echo .; sleep 1; done"
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com     
   build:
     commands:
       - echo Build started on `date`
-      - npm run-script build
-      - echo Building the Docker image...
-      - docker build -t $REPOSITORY_URI:latest .
-      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
+      - echo Compiling the Node.js code
+      # - mocha test.js
   post_build:
     commands:
-      - echo Build completed on `date`
-      - echo Logging in to Amazon ECR...
-      - aws --version
-      - aws ecr get-login-password --region region | docker login --username AWS --password-stdin aws_account_id.dkr.ecr.region.amazonaws.com
-      - echo Pushing the Docker images...
-      - docker push $REPOSITORY_URI:latest
-      - docker push $REPOSITORY_URI:$IMAGE_TAG
+      - docker image build -t $IMAGE_NAME .
+      - docker image tag $IMAGE_NAME:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$IMAGE_NAME:latest
+      - echo image name =  $IMAGE_NAME:latest
+      - echo image url = $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$IMAGE_NAME:latest
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$IMAGE_NAME:latest
       - echo Writing image definitions file...
-      - printf '[{"name":"'$ecs_container_name'","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
+      # name is a container name from the task definition
+      - printf '[{"name":"'"$CONTAINER_NAME"'","imageUri":"'"$AWS_ACCOUNT_ID"'.dkr.ecr.'"$AWS_REGION"'.amazonaws.com/'"$IMAGE_NAME"':latest"}]' > imagedefinitions.json
+      - cat imagedefinitions.json
+      - echo Build completed on `date`
+
 artifacts:
     files: 
     - imagedefinitions.json
