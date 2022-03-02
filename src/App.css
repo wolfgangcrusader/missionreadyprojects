@@ -1,38 +1,69 @@
-.App {
-  text-align: center;
+@font-face {
+  font-family: "at";
+  src: url("./images/Adventure\ Time\ Logo.ttf") format("ttf"),
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.App{
+  background-image: url(./images/at.jpg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size:cover;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  font-family: at;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.title {
+  position: relative;
+  left: 25%;
+
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.heading{
+position: relative;
+left: 40%;
+top: -20%;
+color:white;
+font-size:2.5vw
+}
+
+.quotediv{
+  font-size: 25px;
+  font-weight: bold;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  width: 50%;
+  margin: 5%;
+  margin-left: 35%;
 }
 
-.App-link {
-  color: #61dafb;
+.quote{
+  font-size: 25px;
+  font-weight: bold;
+  font-family: VT323;
+  background: rgb(250, 223, 249);
+  border-radius: 4px;
+  border: 2px solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 575px;
+  margin: 5%;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.generate{
+  border: 2px solid black;
+  width: 20%;
+  height: 6vh;
+  background-color: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
+  position:absolute;
+  left: 45%;
+}
+
+.quotee{
+  color: rgb(255, 255, 255);
+  text-shadow: 2px 2px #ff0000;
 }
