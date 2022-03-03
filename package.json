@@ -1,7 +1,9 @@
 {
   "name": "quote-generator-react",
   "version": "0.1.0",
-  "private": true,
+  "Description": "React App deploying CI/CD AWS pipeline",
+  "Author": "Neishun Lopati",
+  "main":"index.js",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^12.1.3",
